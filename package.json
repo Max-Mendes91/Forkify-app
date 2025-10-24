@@ -1,0 +1,26 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe aplication",
+  "homepage": "https://github.com/Max-Mendes91/Forkify-app#readme",
+  "bugs": {
+    "url": "https://github.com/Max-Mendes91/Forkify-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Max-Mendes91/Forkify-app.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "devDependencies": {
+    "@swc/core-darwin-arm64": "^1.13.21",
+    "parcel-bundler": "^1.12.5",
+    "sass": "^1.93.2"
+  }
+}
