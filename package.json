@@ -22,5 +22,11 @@
     "@swc/core-darwin-arm64": "^1.13.21",
     "parcel-bundler": "^1.12.5",
     "sass": "^1.93.2"
+  },
+  "dependencies": {
+    "cor": "^0.0.0",
+    "core-js": "^3.46.0",
+    "re": "^0.1.4",
+    "regenerator-runtime": "^0.14.1"
   }
 }
