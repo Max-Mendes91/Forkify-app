@@ -1,8 +1,21 @@
 import View from './View.js';
-
-// import icons from '../img/icons.svg'; // Parcel 1
-import icons from 'url:../../img/icons.svg'; // Parcel 2
-import { Fraction } from 'fractional';
+import icons from '../../img/icons.svg';
+// Lightweight fraction formatter to avoid CJS issues with 'fractional'
+const fracty = function (value) {
+  if (value == null) return '';
+  const num = Number(value);
+  if (!Number.isFinite(num)) return '';
+  if (Math.abs(num - Math.round(num)) < 1e-10) return String(Math.round(num));
+  const sign = num < 0 ? '-' : '';
+  const abs = Math.abs(num);
+  const whole = Math.floor(abs);
+  const frac = abs - whole;
+  const denominator = 8; // simple resolution
+  const numerator = Math.round(frac * denominator);
+  if (numerator === 0) return sign + String(whole || 0);
+  if (whole === 0) return `${sign}${numerator}/${denominator}`;
+  return `${sign}${whole} ${numerator}/${denominator}`;
+};
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -33,9 +46,8 @@ class RecipeView extends View {
   _generateMarkup() {
     return `
       <figure class="recipe__fig">
-        <img src="${this._data.image}" alt="${
-      this._data.title
-    }" class="recipe__img" />
+        <img src="${this._data.image}" alt="${this._data.title
+      }" class="recipe__img" />
         <h1 class="recipe__title">
           <span>${this._data.title}</span>
         </h1>
@@ -46,31 +58,27 @@ class RecipeView extends View {
           <svg class="recipe__info-icon">
             <use href="${icons}#icon-clock"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--minutes">${
-            this._data.cookingTime
-          }</span>
+          <span class="recipe__info-data recipe__info-data--minutes">${this._data.cookingTime
+      }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
         <div class="recipe__info">
           <svg class="recipe__info-icon">
             <use href="${icons}#icon-users"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">${
-            this._data.servings
-          }</span>
+          <span class="recipe__info-data recipe__info-data--people">${this._data.servings
+      }</span>
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--update-servings" data-update-to="${
-              this._data.servings - 1
-            }">
+            <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1
+      }">
               <svg>
                 <use href="${icons}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--update-servings" data-update-to="${
-              this._data.servings + 1
-            }">
+            <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings + 1
+      }">
               <svg>
                 <use href="${icons}#icon-plus-circle"></use>
               </svg>
@@ -85,9 +93,8 @@ class RecipeView extends View {
         </div>
         <button class="btn--round btn--bookmark">
           <svg class="">
-            <use href="${icons}#icon-bookmark${
-      this._data.bookmarked ? '-fill' : ''
-    }"></use>
+            <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill' : ''
+      }"></use>
           </svg>
         </button>
       </div>
@@ -102,9 +109,8 @@ class RecipeView extends View {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${
-            this._data.publisher
-          }</span>. Please check out
+          <span class="recipe__publisher">${this._data.publisher
+      }</span>. Please check out
           directions at their website.
         </p>
         <a
@@ -127,9 +133,7 @@ class RecipeView extends View {
       <svg class="recipe__icon">
         <use href="${icons}#icon-check"></use>
       </svg>
-      <div class="recipe__quantity">${
-        ing.quantity ? new Fraction(ing.quantity).toString() : ''
-      }</div>
+      <div class="recipe__quantity">${ing.quantity ? fracty(ing.quantity) : ''}</div>
       <div class="recipe__description">
         <span class="recipe__unit">${ing.unit}</span>
         ${ing.description}
